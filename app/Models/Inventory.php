@@ -13,7 +13,10 @@ class Inventory extends Model {
         'name',
         'buhcode',
         'models_id',
-        'active'
+        'active',
+        'provider_id',
+        'data_of_delivery',
+        'guarantee_period'
     ];
 
     public function workplace() {
@@ -26,6 +29,10 @@ class Inventory extends Model {
 
     public function accessories() {
         return $this->hasMany(Inventory::class, 'parrent_id');
+    }
+
+    public function provider() {
+        return $this->belongsTo(Provider::class, 'provider_id');
     }
 
     public function model() {
