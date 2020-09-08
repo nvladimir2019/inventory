@@ -35,7 +35,7 @@ class Inventory extends Model {
         return $this->belongsTo(Provider::class, 'provider_id');
     }
 
-    public function model() {
-//        return $this->belongsTo(Models::class, 'models_id');
-    }
+//    public function model() {
+//        return $this->belongsTo(Model::class, 'models_id');
+//    }
 }
