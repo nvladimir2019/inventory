@@ -178,6 +178,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `inventory`.`status`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `inventory`.`status` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `inventory`.`inventory`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inventory`.`inventory` (
@@ -191,11 +201,13 @@ CREATE TABLE IF NOT EXISTS `inventory`.`inventory` (
   `provider_id` INT UNSIGNED NOT NULL,
   `date_of_delivery` TIMESTAMP NOT NULL,
   `guarantee_period` INT NOT NULL,
+  `status_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_inventory_inventory1_idx` (`parrent_id` ASC),
   INDEX `fk_inventory_workplace1_idx` (`workplace_id` ASC),
   INDEX `fk_inventory_models1_idx` (`models_id` ASC),
   INDEX `fk_inventory_provider1_idx` (`provider_id` ASC),
+  INDEX `fk_inventory_status1_idx` (`status_id` ASC),
   CONSTRAINT `fk_inventory_inventory1`
     FOREIGN KEY (`parrent_id`)
     REFERENCES `inventory`.`inventory` (`id`)
@@ -214,6 +226,11 @@ CREATE TABLE IF NOT EXISTS `inventory`.`inventory` (
   CONSTRAINT `fk_inventory_provider1`
     FOREIGN KEY (`provider_id`)
     REFERENCES `inventory`.`providers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_inventory_status1`
+    FOREIGN KEY (`status_id`)
+    REFERENCES `inventory`.`status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
