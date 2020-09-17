@@ -10,32 +10,32 @@
     <div class="container">
         <div class="row filters">
         <form action="" method="POST">
-            <div class="form-row">
+            <div class="form-row" id="filters-workplace">
                 <div class="col">
-                    <select name="filial" id="">
-                        <option>Выберите филиал</option>
+                    <select name="filial" id="filial">
+                        <option value="-1">Выберите филиал</option>
                         @foreach($filials as $filial)
                             <option value="{{ $filial->id }}">{{ $filial->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col">
-                    <select name="building" disabled>
+                    <select name="building" disabled id="building">
                         <option>Здание</option>
                     </select>
                 </div>
                 <div class="col">
-                    <select name="floor" disabled>
+                    <select name="floor" disabled id="floor">
                         <option>Этаж</option>
                     </select>
                 </div>
                 <div class="col">
-                    <select name="room" disabled>
+                    <select name="room" disabled id="room">
                         <option>Комната</option>
                     </select>
                 </div>
                 <div class="col">
-                    <select name="department">
+                    <select name="department" id="department">
                         <option>Подразделение</option>
                         @foreach($departments as $department)
                             <option value="{{ $department->id }}">{{ $department->namedept }}</option>

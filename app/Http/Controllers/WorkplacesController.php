@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\models\Building;
 use App\Models\Department;
 use App\Models\Filial;
 use App\Models\Workplace;
@@ -14,5 +15,10 @@ class WorkplacesController extends Controller {
             'departments' => Department::all(),
             'workplaces' => Workplace::paginate(15)
         ]);
+    }
+
+    public function getBuilding(Request $request) {
+        $json = $request->json()->all();
+        return response()->json(Building::where('filial_id', $json['workplaceId'])->get());
     }
 }

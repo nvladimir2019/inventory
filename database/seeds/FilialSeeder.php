@@ -15,9 +15,7 @@ class FilialSeeder extends Seeder
         DB::table('filial')->insert([
             'id' => 1,
             'name' => 'testFilial',
-            'locality' => 'Locality1',
-            'street' => 'Street1',
-            'building' => 1
+            'locality' => 'Locality1'
         ]);
     }
 }
