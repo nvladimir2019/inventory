@@ -15,12 +15,44 @@ class Workplaces {
 
     buildings(b) {
         let selectBuilding = document.getElementById('building');
-        let buildings = "";
+        let buildings = "<option value='-1'>Здание</option>";
         b.forEach((building) => {
-            buildings += "<option value='"+building.id+"'>"+building.name+"</option>"
+            buildings += `<option value='${building.id}'>${building.name}</option>`;
         });
         selectBuilding.disabled = false;
         selectBuilding.innerHTML = buildings;
+    }
+
+    getFloor(buildingId) {
+        this.httpClient.postJson("/api/get/floor", {buildingId}, (f)=> {
+            this.floors(f);
+        })
+    }
+
+    floors(f) {
+        let selectFloor = document.getElementById('floor');
+        let floors = "<option value='-1'>Этаж</option>";
+        f.forEach((floor) => {
+            floors += `<option value='${floor.id}'>${floor.number}</option>`;
+        });
+        selectFloor.disabled = false;
+        selectFloor.innerHTML = floors;
+    }
+
+    getRoom(floorId) {
+        this.httpClient.postJson("/api/get/room", {floorId}, (r)=> {
+            this.rooms(r);
+        })
+    }
+
+    rooms(r) {
+        let selectRoom = document.getElementById('room');
+        let rooms = "<option value='-1'>Комната</option>";
+        r.forEach((room) => {
+            rooms += `<option value='${room.id}'>${room.placement}</option>`;
+        });
+        selectRoom.disabled = false;
+        selectRoom.innerHTML = rooms;
     }
 }
 
@@ -55,21 +87,61 @@ class FiltersWorkplaces {
     bindEvents() {
         this.selects.filial.addEventListener('change', e=> {
             this.getBuilding(e);
-            // this.getWorkplaces();
-        })
+        });
+
+        this.selects.building.addEventListener('change', e=> {
+            this.getFloor(e);
+        });
+
+        this.selects.floor.addEventListener('change', e=> {
+            this.getRoom(e);
+        });
     }
 
 
 
     getBuilding(e) {
         let workplaceId = e.target.value;
-        let buildings = this.workplaces.getBuilding(workplaceId);
+        if(workplaceId === '-1') {
+            this.selects.building.innerHTML = "<option value='-1'>Здание</option>";
+            this.selects.building.disabled = true;
+            this.selects.floor.innerHTML = "<option value='-1'>Этаж</option>";
+            this.selects.floor.disabled = true;
+            this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
+            this.selects.room.disabled = true;
+            return;
+        }
+        this.workplaces.getBuilding(workplaceId);
+    }
+
+    getFloor(e) {
+        let buildingId = e.target.value;
+        if(buildingId === '-1') {
+            this.selects.floor.innerHTML = "<option value='-1'>Этаж</option>";
+            this.selects.floor.disabled = true;
+            this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
+            this.selects.room.disabled = true;
+            return;
+        }
+        this.workplaces.getFloor(buildingId);
+    }
+
+    getRoom(e) {
+        let floorId = e.target.value;
+        if(floorId === '-1') {
+            this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
+            this.selects.room.disabled = true;
+            return;
+        }
+        this.workplaces.getRoom(floorId);
     }
 
     getWorkplaces() {
         let filters = new GetWorkplacesFiltersRequest;
         filters.filial = this.selects.filial.value === "-1" ? null : parseInt(this.selects.filial.value);
-        filters.building = this.selects.building.disabled ? null : this.selects.building.disabled
+        filters.building = this.selects.building.disabled ? null : this.selects.building.disabled;
+        filters.floor = this.selects.floor.disabled ? null : this.selects.floor.disabled;
+        filters.floor = this.selects.room.disabled ? null : this.selects.room.disabled;
     }
 }
 

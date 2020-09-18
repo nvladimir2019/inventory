@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\models\Building;
 use App\Models\Department;
 use App\Models\Filial;
+use App\models\Floor;
+use App\Models\Placement;
 use App\Models\Workplace;
 use Illuminate\Http\Request;
 
@@ -20,5 +22,15 @@ class WorkplacesController extends Controller {
     public function getBuilding(Request $request) {
         $json = $request->json()->all();
         return response()->json(Building::where('filial_id', $json['workplaceId'])->get());
+    }
+
+    public function getFloor(Request $request) {
+        $json = $request->json()->all();
+        return response()->json(Floor::where('building_id', $json['buildingId'])->get());
+    }
+
+    public function getRoom(Request $request) {
+        $json = $request->json()->all();
+        return response()->json(Placement::where('floor_id', $json['floorId'])->with('typePlace')->get());
     }
 }

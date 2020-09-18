@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('get/building', 'WorkplacesController@getBuilding');
+Route::post('get/floor', 'WorkplacesController@getFloor');
+Route::post('get/room', 'WorkplacesController@getRoom');
