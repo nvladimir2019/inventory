@@ -9,12 +9,12 @@ class Placement extends Model {
     public $timestamps = false;
     public $fillable = [
         'placement',
-        'filial_id',
-        'typeplace_id'
+        'typeplace_id',
+        'floor_id'
     ];
 
-    public function filial() {
-        return $this->belongsTo(Filial::class, 'filial_id');
+    public function floor() {
+        return $this->belongsTo(Floor::class, 'floor_id');
     }
 
     public function typePlace() {

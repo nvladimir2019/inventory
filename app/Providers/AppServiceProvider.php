@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Contracts\WorkplaceService;
+use App\Services\Implement\WorkplaceServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(WorkplaceService::class, function() {
+            return new WorkplaceServiceImpl;
+        });
     }
 
     /**

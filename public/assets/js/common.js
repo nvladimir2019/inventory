@@ -5,6 +5,7 @@ class HttpClient {
         xhr.setRequestHeader("Content-type", "application/json");
         xhr.onreadystatechange = function () {
             if (xhr.readyState != 3) return;
+            // console.log(xhr.responseText);
             callback(JSON.parse(xhr.responseText));
         };
         xhr.send(JSON.stringify(body));

@@ -13,8 +13,14 @@ class DepartmentSeeder extends Seeder
     public function run()
     {
         DB::table('department')->insert([
-            'id' => 1,
-            'namedept' => 'test'
+            [
+                'id' => 1,
+                'namedept' => 'test'
+            ],
+            [
+                'id' => 2,
+                'namedept' => 'test2'
+            ]
         ]);
     }
 }

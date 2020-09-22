@@ -3,12 +3,24 @@ class Workplaces {
         this.httpClient = httpClient;
     }
 
-    getWorkplaces(callback) {
-        this.httpClient.getJson("/api/workplaces", callback);
+    getWorkplaces(filters) {
+        this.httpClient.postJson("/api/get/workplaces", filters, (w) => {
+            let workplaces = '';
+            w.forEach((workplace) => {
+                workplaces += `
+                    <tr>
+                        <th scope="row"><a href="/workplaces/read/${workplace.id}">${workplace.name}</a></th>
+                        <td><a href="/workplaces/edit/${workplace.id}">Редактировать</a></td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('workplaces').innerHTML = workplaces;
+        });
     }
 
-    getBuilding(workplaceId) {
-        this.httpClient.postJson("/api/get/building", {workplaceId}, (b)=> {
+    getBuilding(filialId) {
+        this.httpClient.postJson("/api/get/building", {filialId}, (b)=> {
             this.buildings(b);
         });
     }
@@ -85,63 +97,115 @@ class FiltersWorkplaces {
     }
 
     bindEvents() {
-        this.selects.filial.addEventListener('change', e=> {
+        this.selects.filial.addEventListener('change', e => {
             this.getBuilding(e);
+            this.getWorkplaces('filial');
         });
 
-        this.selects.building.addEventListener('change', e=> {
+        this.selects.building.addEventListener('change', e => {
             this.getFloor(e);
+            this.getWorkplaces('building');
         });
 
-        this.selects.floor.addEventListener('change', e=> {
+        this.selects.floor.addEventListener('change', e => {
             this.getRoom(e);
+            this.getWorkplaces('floor');
+        });
+
+        this.selects.room.addEventListener('change', e => {
+            this.getWorkplaces('room');
+        });
+
+        this.selects.department.addEventListener('change', e => {
+            this.getWorkplaces('department');
         });
     }
-
 
 
     getBuilding(e) {
-        let workplaceId = e.target.value;
-        if(workplaceId === '-1') {
+        let filialId = e.target.value;
+        if (filialId === '-1') {
             this.selects.building.innerHTML = "<option value='-1'>Здание</option>";
             this.selects.building.disabled = true;
-            this.selects.floor.innerHTML = "<option value='-1'>Этаж</option>";
-            this.selects.floor.disabled = true;
-            this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
-            this.selects.room.disabled = true;
-            return;
+        } else {
+            this.workplaces.getBuilding(filialId);
         }
-        this.workplaces.getBuilding(workplaceId);
+
+        this.selects.floor.innerHTML = "<option value='-1'>Этаж</option>";
+        this.selects.floor.disabled = true;
+        this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
+        this.selects.room.disabled = true;
     }
 
     getFloor(e) {
+        this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
+        this.selects.room.disabled = true;
+
         let buildingId = e.target.value;
-        if(buildingId === '-1') {
+        if (buildingId === '-1') {
             this.selects.floor.innerHTML = "<option value='-1'>Этаж</option>";
             this.selects.floor.disabled = true;
-            this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
-            this.selects.room.disabled = true;
-            return;
+        } else {
+            this.workplaces.getFloor(buildingId);
         }
-        this.workplaces.getFloor(buildingId);
     }
 
     getRoom(e) {
         let floorId = e.target.value;
-        if(floorId === '-1') {
+        if (floorId === '-1') {
             this.selects.room.innerHTML = "<option value='-1'>Комната</option>";
             this.selects.room.disabled = true;
-            return;
+        } else {
+            this.workplaces.getRoom(floorId);
         }
-        this.workplaces.getRoom(floorId);
     }
 
-    getWorkplaces() {
-        let filters = new GetWorkplacesFiltersRequest;
+    getWorkplaces(select) {
+        let filters = new GetWorkplacesFiltersRequest();
         filters.filial = this.selects.filial.value === "-1" ? null : parseInt(this.selects.filial.value);
-        filters.building = this.selects.building.disabled ? null : this.selects.building.disabled;
-        filters.floor = this.selects.floor.disabled ? null : this.selects.floor.disabled;
-        filters.floor = this.selects.room.disabled ? null : this.selects.room.disabled;
+        filters.building = this.selects.building.disabled
+            ? null
+            : this.selects.building.value === '-1'
+                ? null
+                : parseInt(this.selects.building.value);
+        filters.floor = this.selects.floor.disabled
+            ? null
+            : this.selects.floor.value === '-1'
+                ? null
+                : parseInt(this.selects.floor.value);
+        filters.room = this.selects.room.disabled
+            ? null
+            : this.selects.room.value === '-1'
+                ? null
+                : parseInt(this.selects.room.value);
+        filters.department = this.selects.department.value === "-1" ? null : parseInt(this.selects.department.value);
+
+        let filter = {};
+        if (select === 'filial') {
+            filter = {
+                'filial': filters.filial,
+                'department': filters.department
+            };
+        } else if (select === 'building') {
+            filter = {
+                'building': filters.building,
+                'department': filters.department
+            };
+        } else if (select === 'floor') {
+            filter = {
+                'floor': filters.floor,
+                'department': filters.department
+            };
+        } else if (select === 'room') {
+            filter = {
+                'room': filters.room,
+                'department': filters.department
+            };
+        } else if (select === 'department') {
+            filter = filters;
+        }
+
+        this.workplaces.getWorkplaces(filter);
     }
 }
 
