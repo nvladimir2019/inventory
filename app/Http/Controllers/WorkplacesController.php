@@ -8,9 +8,11 @@ use App\Models\Department;
 use App\Models\Filial;
 use App\models\Floor;
 use App\Models\Inventory;
+use App\Models\Model;
 use App\models\Models;
 use App\Models\Placement;
 use App\Models\Provider;
+use App\models\Status;
 use App\Models\Workplace;
 use App\Services\Contracts\WorkplaceService;
 use Illuminate\Http\Request;
@@ -76,8 +78,9 @@ class WorkplacesController extends Controller {
         return view('workplaces.read', [
             'workplace' => Workplace::find($id),
             'inventory' => Inventory::where('workplace_id', $id)->get(),
-            'models' => Models::all(),
-            'providers' => Provider::all()
+            'models' => Model::all(),
+            'providers' => Provider::all(),
+            'status' => Status::all()
         ]);
     }
 }

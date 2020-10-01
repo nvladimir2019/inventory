@@ -22,5 +22,9 @@ Route::prefix('workplaces')->group(function() {
     Route::get('/read/{id}', "WorkplacesController@read")->name('read-workplace');
 });
 
-Route::get('inventory', "InventoryController@index")->name('inventory');
+Route::prefix('inventory')->group(function() {
+    Route::get('/', "InventoryController@index")->name('inventory');
+    Route::post('/add', "InventoryController@add")->name('add-inventory');
+});
+
 Route::get('directory', "DirectoryController@index")->name('directory');

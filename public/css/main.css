@@ -7,3 +7,18 @@
 .mt20 {
     margin-top: 20px;
 }
+
+.add-inventory {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #fff;
+    z-index: 9999;
+}
+
+.add-inventory.active {
+    display: block;
+}

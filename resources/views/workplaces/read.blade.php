@@ -5,6 +5,10 @@
 @section('style')
 @endsection
 
+@section('javaScript')
+    <script src="{{ asset('assets/js/addInventory.js') }}"></script>
+@endsection
+
 @section('main')
     <div class="container">
         <h2 class="mt20">{{ $workplace->name }}</h2>
@@ -18,6 +22,9 @@
             <div class="col-md-3">Здание: {{ $workplace->placement->floor->building->name }}</div>
             <div class="col-md-3">Этаж: {{ $workplace->placement->floor->number }}</div>
             <div class="col-md-3">Комната: {{ $workplace->placement->placement }}</div>
+        </div>
+        <div class="mt20">
+            <button class="btn btn-primary" id="btn-add-inventory">+ Добавить инвентарь</button>
         </div>
         <div class="row mt20">
             <div class="col-md-12 pull-right">
@@ -51,3 +58,6 @@
         </div>
     </div>
 @endsection
+<div class="add-inventory" id="add-inventory">
+    @include('inventory.add')
+</div>
