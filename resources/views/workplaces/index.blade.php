@@ -8,6 +8,7 @@
 @section('javaScript')
     <script src="{{ asset('assets/js/common.js') }}"></script>
     <script src="{{ asset('assets/js/workplaces.js') }}"></script>
+    <script src="{{ asset('assets/js/addWorkplace.js') }}"></script>
 @endsection
 
 @section('main')
@@ -54,7 +55,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <a href="{{ route('add-workplace') }}" class="btn btn-primary">+ Добавить</a>
+                <button class="btn btn-primary" id="btn-add-workplace">✚ Добавить</button>
             </div>
         </div>
         <div class="row mt20">
@@ -77,5 +78,8 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="add-workplace" id="add-workplace">
+        @include('workplaces.add')
     </div>
 @endsection

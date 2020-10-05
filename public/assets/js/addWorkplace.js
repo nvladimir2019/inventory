@@ -4,15 +4,29 @@ class AddWorkplace {
     }
 
     init() {
-        this.filial = document.getElementById('filial');
-        this.building = document.getElementById('building');
-        this.floor = document.getElementById('floor');
-        this.room = document.getElementById('room');
+        this.filial = document.getElementById('add-workplace-filial');
+        this.building = document.getElementById('add-workplace-building');
+        this.floor = document.getElementById('add-workplace-floor');
+        this.room = document.getElementById('add-workplace-room');
+        this.btnAddWorkplace = document.getElementById('btn-add-workplace');
+        this.addWorkplace = document.getElementById('add-workplace');
+        this.btnClose = document.querySelectorAll('.btn-close');
 
         this.bindsEvents();
     }
 
     bindsEvents() {
+        this.btnAddWorkplace.addEventListener('click', () => {
+            this.addWorkplace.classList.add('active');
+        });
+
+        this.btnClose.forEach(b => {
+            b.addEventListener('click', e => {
+                e.preventDefault();
+                this.addWorkplace.classList.remove('active');
+            });
+        });
+
         this.filial.addEventListener('change', e => {
             this.getBuilding(e);
         });
@@ -86,7 +100,7 @@ class GetData {
         b.forEach((b) => {
             building += `<option value="${b.id}">${b.name}</option>`;
         });
-        document.getElementById('building').innerHTML = building;
+        document.getElementById('add-workplace-building').innerHTML = building;
     }
 
     getFloor(buildingId) {
@@ -100,7 +114,7 @@ class GetData {
         f.forEach((f) => {
             floor += `<option value="${f.id}">${f.number}</option>`;
         });
-        document.getElementById('floor').innerHTML = floor;
+        document.getElementById('add-workplace-floor').innerHTML = floor;
     }
 
     getRoom(floorId) {
@@ -114,11 +128,10 @@ class GetData {
         r.forEach((r) => {
             room += `<option value="${r.id}">${r.placement}</option>`;
         });
-        document.getElementById('room').innerHTML = room;
+        document.getElementById('add-workplace-room').innerHTML = room;
     }
 }
 
-let httpClient = new HttpClient();
 let getData = new GetData(httpClient);
 let addWorkplace = new AddWorkplace(getData);
 window.addEventListener("load", () => addWorkplace.init());

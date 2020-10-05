@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddInventoryRequest;
+use App\Models\Inventory;
 use App\Services\Contracts\InventoryService;
 use Illuminate\Http\Request;
 
@@ -30,5 +31,27 @@ class InventoryController extends Controller {
         ]);
 
         return redirect()->to(route('read-workplace', $request->post('workplace_id')));
+    }
+
+    public function getModels(Request $request) {
+        $models = $this->inventoryService->getModelsFilter($request->json()->all());
+        return response()->json($models);
+    }
+
+    public function withInventoryNumbers(Request $request) {
+
+        $inventory = $this->inventoryService->withInventoryNumbers($request->json('workplaceId'));
+        return response()->json($inventory);
+    }
+
+    public function getByWorkplaceId(Request $request) {
+        $inventory = $this->inventoryService->getByWorkplaceId($request->json('workplaceId'));
+        return response()->json($inventory);
+    }
+
+    public function read($id) {
+        return view('inventory.read', [
+            'inventory' => Inventory::find($id)
+        ]);
     }
 }

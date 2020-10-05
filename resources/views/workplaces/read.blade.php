@@ -1,19 +1,23 @@
 @extends("template")
 
-@section('title', 'Рабочие места |')
+@section('title')
+    Рабочее место '{{ $workplace->name }}' |
+@endsection
 
 @section('style')
 @endsection
 
 @section('javaScript')
+    <script src="{{ asset('assets/js/common.js') }}"></script>
     <script src="{{ asset('assets/js/addInventory.js') }}"></script>
+    <script src="{{ asset('assets/js/getInventory.js') }}"></script>
 @endsection
 
 @section('main')
     <div class="container">
         <h2 class="mt20">{{ $workplace->name }}</h2>
-        <div class="row">
-            <div class="col-md-12 mt20">
+        <div class="row mt20">
+            <div class="col-md-12">
                 Подразделение: {{ $workplace->department->namedept }}
             </div>
         </div>
@@ -24,15 +28,18 @@
             <div class="col-md-3">Комната: {{ $workplace->placement->placement }}</div>
         </div>
         <div class="mt20">
-            <button class="btn btn-primary" id="btn-add-inventory">+ Добавить инвентарь</button>
+            <button class="btn btn-primary" id="btn-add-inventory">✚ Добавить инвентарь</button>
         </div>
-        <div class="row mt20">
+        <div class="row">
             <div class="col-md-12 pull-right">
                 <span class="float-right">
                     <input type="checkbox" id="with-inventory-numbers">
                     <label for="with-inventory-numbers"> С инвентарными номерами</label>
                 </span>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -43,18 +50,19 @@
                     <th scope="col">Подробнее</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="table-inventory">
                 @foreach($inventory as $inv)
                     <tr>
-                        <td><a href="#">{{ $inv }}</a></td>
-                        <td><a href="#">{{ $inv }}</a></td>
-                        <td><a href="#">{{ $inv }}</a></td>
-                        <td><a href="#">{{ $inv }}</a></td>
-                        <td><a href="#">Подробнее</a></td>
+                        <td>{{ $inv->model->type->name }}</td>
+                        <td>{{ $inv->model->manufacturer->name }}</td>
+                        <td>{{ $inv->model->name }}</td>
+                        <td>{{ $inv->buhcode }}</td>
+                        <td><a href="{{ route('read-inventory', $inv->id) }}">Подробнее</a></td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 @endsection

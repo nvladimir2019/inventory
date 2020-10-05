@@ -25,7 +25,6 @@ class AddInventoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'buhcode' => 'required',
             'model' => 'required',
             'provider' => 'required',
             'date_of_delivery' => 'required',

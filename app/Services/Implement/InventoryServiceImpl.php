@@ -5,7 +5,9 @@ namespace App\Services\Implement;
 
 
 use App\Models\Inventory;
+use App\Models\ModelM;
 use App\Services\Contracts\InventoryService;
+use Illuminate\Support\Facades\Log;
 
 class InventoryServiceImpl implements InventoryService
 {
@@ -29,5 +31,33 @@ class InventoryServiceImpl implements InventoryService
         $inventory->save();
 
         return $inventory->id;
+    }
+
+
+    function getModelsFilter(array $filters) {
+        $models = new ModelM();
+
+        if(isset($filters['type']) && $filters['type'] !== null) {
+            $models = $models->where('typeinvent_id', $filters['type']);
+        }
+
+        if(isset($filters['manufacturer']) && $filters['manufacturer'] !== null) {
+            $models = $models->where('manufacturers_id', $filters['manufacturer']);
+        }
+
+        return $models->get();
+    }
+
+    function withInventoryNumbers(int $workplaceId) {
+        return Inventory::where('workplace_id', $workplaceId)
+            ->where('buhcode', '!=', '')
+            ->with('model')
+            ->get();
+    }
+
+    function getByWorkplaceId(int $workplaceId) {
+        return Inventory::where('workplace_id', $workplaceId)
+            ->with('model')
+            ->get();
     }
 }

@@ -17,7 +17,6 @@ Route::get('/', "MainController@index")->name('main');
 
 Route::prefix('workplaces')->group(function() {
     Route::get('/', "WorkplacesController@index")->name('workplaces');
-    Route::get('/add', "WorkplacesController@add")->name('add-workplace');
     Route::post('/add/save', "WorkplacesController@addSave")->name('add-save-workplace');
     Route::get('/read/{id}', "WorkplacesController@read")->name('read-workplace');
 });
@@ -25,6 +24,7 @@ Route::prefix('workplaces')->group(function() {
 Route::prefix('inventory')->group(function() {
     Route::get('/', "InventoryController@index")->name('inventory');
     Route::post('/add', "InventoryController@add")->name('add-inventory');
+    Route::get('/read/{id}', "InventoryController@read")->name('read-inventory');
 });
 
 Route::get('directory', "DirectoryController@index")->name('directory');

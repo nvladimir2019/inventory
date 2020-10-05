@@ -3,9 +3,10 @@
 namespace App\Models;
 
 
-class Model extends \Illuminate\Database\Eloquent\Model
+class ModelM extends \Illuminate\Database\Eloquent\Model
 {
     protected $table = 'models';
+    protected $with = ['type', 'manufacturer'];
     public $timestamp = false;
     public $filible = [
         'name',
@@ -21,7 +22,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     public function type()
     {
-        return $this->belongsTo(Type::class, 'type_id');
+        return $this->belongsTo(Type::class, 'typeinvent_id');
     }
 
     public function inventory()
