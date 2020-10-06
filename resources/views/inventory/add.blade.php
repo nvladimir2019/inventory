@@ -6,7 +6,12 @@
     <div class="col-md-12">
         <form action="{{route('add-inventory')}}" method="POST">
             @csrf
-            <input type="hidden" name="workplace_id" value="{{$workplace->id}}" id="workplace-id">
+            <input type="hidden" name="workplace" value="{{$workplace->id}}" id="workplace-id">
+            <div class="form-group">
+                <input type="checkbox" id="accessory">
+                <label for="accessory">Комплектующее</label>
+            </div>
+            <div class="form-group" id="select-inventory"></div>
             <div class="form-group">
                 <label for="name">Имя:*</label>
                 <input type="text" name="name" id="name" class="form-control">
@@ -45,6 +50,7 @@
             <div class="form-group">
                 <label for="provider">Поставщик:*</label>
                 <select name="provider" id="provider" class="form-control">
+                    <option value="-1">Выберите поставщика</option>
                     @foreach($providers as $provider)
                         <option value="{{$provider->id}}">{{$provider->name}}</option>
                     @endforeach

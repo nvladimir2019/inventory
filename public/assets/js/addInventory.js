@@ -10,6 +10,8 @@ class AddInventory {
         this.btnClose = document.querySelectorAll('.btn-close');
         this.type = document.getElementById('type');
         this.manufacturer = document.getElementById('manufacturer');
+        this.accessory = document.getElementById('accessory');
+        this.selectInventory = document.getElementById('select-inventory');
 
         this.bindsEvents();
     }
@@ -37,6 +39,15 @@ class AddInventory {
             let manufacturer = this.manufacturer.value;
             this.getModels(type, manufacturer);
         });
+
+        this.accessory.addEventListener('change', e => {
+            if(e.target.checked) {
+                this.addFieldInventory();
+            }
+            else {
+                this.removeFieldInventory();
+            }
+        });
     }
 
     getModels(type, manufacturer) {
@@ -50,6 +61,16 @@ class AddInventory {
             filters.manufacturer = manufacturer;
         }
         this.getDataInventory.getModels(filters);
+    }
+
+    removeFieldInventory() {
+        this.selectInventory.innerHTML = "";
+    }
+
+    addFieldInventory() {
+        this.selectInventory.innerHTML = '<label for="name">Инвентарь:*</label>' +
+            '<select name="inventory" id="accessory-inventory" class="form-control">Выберите инвентарь</select>';
+        this.getDataInventory.getInventory();
     }
 }
 
@@ -71,6 +92,20 @@ class GetDataInventory {
             models += `<option value="${model.id}">${model.name}</option>`;
         });
         this.models.innerHTML = models;
+    }
+
+    getInventory() {
+        this.httpClient.getJson('/api/get/inventory', i => {
+            this.insertInventory(i);
+        });
+    }
+
+    insertInventory(i) {
+        let inventory = "";
+        i.forEach(inv => {
+            inventory += `<option value="${inv.id}">${inv.name}</option>`
+        });
+        document.getElementById('accessory-inventory').innerHTML = inventory;
     }
 }
 

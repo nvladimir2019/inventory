@@ -31,3 +31,9 @@
     top: 20px;
     cursor: pointer;
 }
+
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+    width:33.3%;
+    text-align:center
+}

@@ -18,19 +18,8 @@ class InventoryController extends Controller {
     }
 
     public function add(AddInventoryRequest $request) {
-        $this->inventoryService->create([
-            'workplace_id' => $request->post('workplace_id'),
-            'name' => $request->post('name'),
-            'buhcode' => $request->post('buhcode'),
-            'models_id' => $request->post('model'),
-            'provider_id' => $request->post('provider'),
-            'date_of_delivery' => $request->post('date_of_delivery'),
-            'guarantee_period' => $request->post('guarantee_period'),
-            'active' => 1,
-            'status_id' => $request->post('status')
-        ]);
-
-        return redirect()->to(route('read-workplace', $request->post('workplace_id')));
+        $this->inventoryService->create($request->post());
+        return redirect()->to(route('read-workplace', $request->post('workplace')));
     }
 
     public function getModels(Request $request) {
@@ -53,5 +42,10 @@ class InventoryController extends Controller {
         return view('inventory.read', [
             'inventory' => Inventory::find($id)
         ]);
+    }
+
+    public function get() {
+        $inventory = Inventory::all();
+        return response()->json($inventory);
     }
 }

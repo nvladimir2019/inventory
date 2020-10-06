@@ -14,15 +14,11 @@ class Typeattrib extends Model
     ];
 
 
-
-
-    public function type()
-    {
+    public function type() {
         return $this->belongsTo(Type::class, 'type_id');
     }
 
-    public function attribute()
-    {
+    public function attribute() {
         return $this->hasMany(Attribute::class,'typeattrib_id');
     }
 }

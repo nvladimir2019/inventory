@@ -15,19 +15,19 @@ class InventoryServiceImpl implements InventoryService
     function create(array $i): int {
         $inventory = new Inventory();
 
-        if(isset($i['parrent_id'])) {
-            $inventory->parrent_id = $i['parrent_id'];
+        if(isset($i['inventory'])) {
+            $inventory->parrent_id = $i['inventory'];
         }
 
-        $inventory->workplace_id = $i['workplace_id'];
+        $inventory->workplace_id = $i['workplace'];
         $inventory->name = $i['name'];
         $inventory->buhcode = $i['buhcode'];
-        $inventory->models_id = $i['models_id'];
-        $inventory->active = $i['active'];
-        $inventory->provider_id = $i['provider_id'];
+        $inventory->models_id = $i['model'];
+        $inventory->active = 1;
+        $inventory->provider_id = $i['provider'];
         $inventory->date_of_delivery = $i['date_of_delivery'];
         $inventory->guarantee_period = $i['guarantee_period'];
-        $inventory->status_id = $i['status_id'];
+        $inventory->status_id = $i['status'];
         $inventory->save();
 
         return $inventory->id;
