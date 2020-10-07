@@ -15,8 +15,8 @@ class Filial extends Model {
         'building'
     ];
 
-    public function placement() {
-        return $this->hasMany(Placement::class, 'filial_id');
+    public function buildings() {
+        return $this->hasMany(Building::class, 'filial_id');
     }
 
     public function users() {

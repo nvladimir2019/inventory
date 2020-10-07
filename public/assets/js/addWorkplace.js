@@ -16,9 +16,11 @@ class AddWorkplace {
     }
 
     bindsEvents() {
-        this.btnAddWorkplace.addEventListener('click', () => {
-            this.addWorkplace.classList.add('active');
-        });
+        if(this.btnAddWorkplace !== null) {
+            this.btnAddWorkplace.addEventListener('click', () => {
+                this.addWorkplace.classList.add('active');
+            });
+        }
 
         this.btnClose.forEach(b => {
             b.addEventListener('click', e => {

@@ -58,4 +58,15 @@ class WorkplaceServiceImpl implements WorkplaceService {
 
         return $workplace->id;
     }
+
+    function save(array $w): int {
+        $workplace = Workplace::find($w['id']);
+        $workplace->name = $w['name'];
+        $workplace->department_id = $w['department'];
+        $workplace->placement_id = $w['placement'];
+
+        $workplace->save();
+
+        return $workplace->id;
+    }
 }

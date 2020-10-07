@@ -15,7 +15,7 @@
 
 @section('main')
     <div class="container">
-        <h2 class="mt20">{{ $workplace->name }}</h2>
+        <h2 class="mt20">{{ $workplace->name }} &nbsp;&nbsp;&nbsp;&nbsp; <a href="{{ route('edit-workplace', $workplace->id) }}" class="btn btn-primary">Редактировать</a></h2>
         <div class="row mt20">
             <div class="col-md-12">
                 <ul class="list-group list-group-horizontal">

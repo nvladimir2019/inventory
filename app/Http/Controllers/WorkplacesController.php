@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddWorkplaceRequest;
+use App\Http\Requests\SaveEditWorkplaceRequest;
 use App\models\Building;
 use App\Models\Department;
 use App\Models\Filial;
@@ -78,5 +79,17 @@ class WorkplacesController extends Controller {
             'providers' => Provider::all(),
             'status' => Status::all()
         ]);
+    }
+
+    public function edit($id) {
+        return view('workplaces.edit', [
+            'workplace' => Workplace::find($id),
+            'departments' => Department::all(),
+            'filials' => Filial::all()
+        ]);
+    }
+
+    public function save(SaveEditWorkplaceRequest $request) {
+        return redirect()->to(route('read-workplace', $this->workplaceService->save($request->post())));
     }
 }

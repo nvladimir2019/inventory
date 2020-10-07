@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddInventoryRequest;
+use App\Http\Requests\MoveInventoryRequest;
 use App\Models\Inventory;
 use App\Services\Contracts\InventoryService;
 use Illuminate\Http\Request;
@@ -47,5 +48,9 @@ class InventoryController extends Controller {
     public function get() {
         $inventory = Inventory::all();
         return response()->json($inventory);
+    }
+
+    public function move(MoveInventoryRequest $request) {
+
     }
 }

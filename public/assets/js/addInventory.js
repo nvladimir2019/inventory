@@ -95,7 +95,8 @@ class GetDataInventory {
     }
 
     getInventory() {
-        this.httpClient.getJson('/api/get/inventory', i => {
+        let workplaceId = document.getElementById('workplace-id').value;
+        this.httpClient.postJson('/api/get/inventory/byWorkplaceId', {workplaceId}, i => {
             this.insertInventory(i);
         });
     }

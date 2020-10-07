@@ -71,7 +71,7 @@
                     @foreach($workplaces as $workplace)
                         <tr>
                             <th scope="row"><a href="{{ route('read-workplace', $workplace->id) }}">{{ $workplace->name }}</a></th>
-                            <td><a href="#">Редактировать</a></td>
+                            <td><a href="{{ route('edit-workplace', $workplace->id) }}">Редактировать</a></td>
                         </tr>
                     @endforeach
                     </tbody>

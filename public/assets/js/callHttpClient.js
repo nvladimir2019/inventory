@@ -1,0 +1,1 @@
+let httpClient = new HttpClient();

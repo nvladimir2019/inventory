@@ -9,8 +9,8 @@
 
 @section('javaScript')
     <script src="{{ asset('assets/js/common.js') }}"></script>
-    <script src="{{ asset('assets/js/addInventory.js') }}"></script>
-    <script src="{{ asset('assets/js/getInventory.js') }}"></script>
+    <script src="{{ asset('assets/js/callHttpClient.js') }}"></script>
+    <script src="{{ asset('assets/js/moveInventory.js') }}"></script>
 @endsection
 
 @section('main')
@@ -22,7 +22,7 @@
                     @if(!empty($inventory->parrent_id))
                         <tr>
                             <td>
-                                Родительский инвентарь:
+                                Комплектующее инвентаря:
                             </td>
                             <td>
                                 <a href="{{ route('read-inventory', $inventory->parent->id) }}">{{ $inventory->parent->name }}</a>
@@ -60,37 +60,52 @@
                     <tr>
                         <td>Рабочее место:</td>
                         <td>
-                            <a href="{{ route('read-workplace', $inventory->workplace->id) }}">{{ $inventory->workplace->name }}</a>
+                            <a href="{{ route('read-workplace', $inventory->workplace->id) }}">
+                                {{ $inventory->workplace->name }}
+                            </a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-primary" id="btn-move">Переместить</button>
                         </td>
                     </tr>
                     @if(!empty($inventory->accessories->toArray()))
                         <tr>
-                            <td>Комплектующие:</td>
+                            <td rowspan="{{ $inventory->accessories->count() }}">Комплектующие:</td>
                             <td>
-                                @foreach($inventory->accessories as $accessory)
-                                    <div>
-                                        <a href="{{ route('read-inventory', $accessory->id) }}">{{ $accessory->name }}</a>
-                                    </div>
-                                @endforeach
+                                <a href="{{ route('read-inventory', $inventory->accessories[0]->id) }}">
+                                    1. {{ $inventory->accessories[0]->name }}
+                                </a>
                             </td>
                         </tr>
+                        @for ($i = 1; $i < $inventory->accessories->count(); $i++)
+                        <tr>
+                            <td>
+                                <a href="{{ route('read-inventory', $inventory->accessories[$i]->id) }}">
+                                    {{ $i+1 }}. {{ $inventory->accessories[$i]->name }}
+                                </a>
+                            </td>
+                        </tr>
+                        @endfor
                     @endif
                 </table>
             </div>
         </div>
-    <div class="row mt20">
-        <h3>Характеристики</h3>
-        <div class="col-md-12">
-            <table class="table">
-                <tbody>
-                    @foreach($inventory->model->typeAttrib as $attrib)
-                        <tr>
-                            <td>{{ $attrib->name }}:</td>
-                            <td>{{ $attrib->attribute[0]->values }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="row mt20">
+            <h3>Характеристики</h3>
+            <div class="col-md-12">
+                <table class="table">
+                    <tbody>
+                        @foreach($inventory->model->typeAttrib as $attrib)
+                            <tr>
+                                <td>{{ $attrib->name }}:</td>
+                                <td>{{ $attrib->attribute[0]->values }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+    <div class="move" id="move">
+        @include('inventory.move')
     </div>
  @endsection
