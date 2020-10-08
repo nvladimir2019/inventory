@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
 //        $this->call(TypeSeeder::class);
 //        $this->call(ModelSeeder::class);
 //        $this->call(StatusSeeder::class);
-        $this->call(TypeAttribSeeder::class);
-        $this->call(AttributesSeeder::class);
+//        $this->call(TypeAttribSeeder::class);
+//        $this->call(AttributesSeeder::class);
+        $this->call(RolesSeeder::class);
     }
 }

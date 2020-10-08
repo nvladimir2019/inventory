@@ -433,3 +433,9 @@ CREATE TABLE IF NOT EXISTS `inventory`.`user_has_filial` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+
+
+/*увеличить поле password в таблице user*/
+ALTER TABLE user CHANGE `password` `password` VARCHAR(255);
