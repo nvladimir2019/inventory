@@ -1,0 +1,43 @@
+
+.filters {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.add-inventory, .add-workplace, .move {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f1f1f1;
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.add-inventory.active, .add-workplace.active, .move.active {
+    display: block;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.list-group-horizontal .list-group-item {
+    display: inline-block;
+    width:33.3%;
+    text-align:center
+}
+
+.pagination .page-item {
+    cursor: pointer;
+}

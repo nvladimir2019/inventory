@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('get/building', 'WorkplacesController@getBuilding');
+Route::post('get/floor', 'WorkplacesController@getFloor');
+Route::post('get/room', 'WorkplacesController@getRoom');
+Route::post('get/workplaces', 'WorkplacesController@getWorkplaces');
+Route::post('get/models', 'InventoryController@getModels');
+Route::post('get/inventory/withInventoryNumbers', 'InventoryController@withInventoryNumbers');
+Route::post('get/inventory/byWorkplaceId', 'InventoryController@getByWorkplaceId');
