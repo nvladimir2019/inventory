@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class InventoryServiceImpl implements InventoryService
 {
-
     function create(array $i): int {
         $inventory = new Inventory();
 

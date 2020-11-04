@@ -29,6 +29,7 @@ class WorkplacesController extends Controller {
      * @var WorkplaceService
      */
     private $workplaceService;
+    private $inventoryService;
 
     public function __construct(WorkplaceService $workplaceService, InventoryService $inventoryService) {
         $this->workplaceService = $workplaceService;

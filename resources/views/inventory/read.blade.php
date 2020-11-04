@@ -16,6 +16,9 @@
 @section('main')
     <div class="container">
         <h2 class="mt20">{{ $inventory->name }}</h2>
+        <div class="mt20">
+            <button class="btn btn-primary" id="btn-add-inventory">✚ Добавить комплектующие</button>
+        </div>
         <div class="row mt20">
             <div class="col-md-12">
                 <table class="table">

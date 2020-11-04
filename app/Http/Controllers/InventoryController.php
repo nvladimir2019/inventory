@@ -18,6 +18,12 @@ class InventoryController extends Controller {
         $this->inventoryService = $inventoryService;
     }
 
+    public function index() {
+        return view('inventory.index', [
+
+        ]);
+    }
+
     public function add(AddInventoryRequest $request) {
         $this->inventoryService->create($request->post());
         return redirect()->to(route('read-workplace', $request->post('workplace')));

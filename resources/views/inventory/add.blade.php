@@ -7,10 +7,7 @@
         <form action="{{route('add-inventory')}}" method="POST">
             @csrf
             <input type="hidden" name="workplace" value="{{$workplace->id}}" id="workplace-id">
-            <div class="form-group">
-                <input type="checkbox" id="accessory">
-                <label for="accessory">Комплектующее</label>
-            </div>
+
             <div class="form-group" id="select-inventory"></div>
             <div class="form-group">
                 <label for="name">Имя:*</label>

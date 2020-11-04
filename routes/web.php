@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function() {
         Route::post('/move', "InventoryController@move")->name('move-inventory');
     });
 
+    Route::prefix('employees')->group(function () {
+        Route::get('/', "EmployeesController@index")->name('employees');
+    });
+
     Route::get('directory', "DirectoryController@index")->name('directory');
 
 });

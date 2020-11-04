@@ -31,6 +31,7 @@
                     <div class="navbar-nav">
                         <a class="nav-link" href="{{ route('workplaces') }}">Рабочие места</a>
                         <a class="nav-link" href="{{ route('inventory') }}">Инвентарь</a>
+                        <a class="nav-link" href="{{ route('employees') }}">Сотрудники</a>
                         <a class="nav-link" href="{{ route('directory') }}">Справочники</a>
                     </div>
                 </div>
