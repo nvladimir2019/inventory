@@ -6,6 +6,7 @@ namespace App\Services\Implement;
 
 use App\Models\Workplace;
 use App\Services\Contracts\WorkplaceService;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -44,7 +45,13 @@ class WorkplaceServiceImpl implements WorkplaceService {
             $workplace->where('workplace.department_id', $filters['department']);
         }
 
-        return $workplace->get('workplace.*');
+        $wp = $workplace->paginate(15, ['workplace.*'], 'page', $filters['page']);
+        $paginator = new Paginator($wp->items(), $wp->total(), $wp->perPage(), $wp->currentPage());
+
+        return [
+            'workplaces' => $wp,
+            'paginator' => $paginator->getElements()
+        ];
     }
 
     function add(array $w): int {

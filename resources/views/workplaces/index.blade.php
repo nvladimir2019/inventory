@@ -7,6 +7,7 @@
 
 @section('javaScript')
     <script src="{{ asset('assets/js/common.js') }}"></script>
+    <script src="{{ asset('assets/js/paginator.js') }}"></script>
     <script src="{{ asset('assets/js/workplaces.js') }}"></script>
     <script src="{{ asset('assets/js/addWorkplace.js') }}"></script>
 @endsection
@@ -68,14 +69,13 @@
                     </tr>
                     </thead>
                     <tbody id="workplaces">
-                    @foreach($workplaces as $workplace)
-                        <tr>
-                            <th scope="row"><a href="{{ route('read-workplace', $workplace->id) }}">{{ $workplace->name }}</a></th>
-                            <td><a href="{{ route('edit-workplace', $workplace->id) }}">Редактировать</a></td>
-                        </tr>
-                    @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="col-md-12">
+                <nav>
+                    <ul class="pagination justify-content-center" id="pagination"></ul>
+                </nav>
             </div>
         </div>
     </div>

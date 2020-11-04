@@ -37,3 +37,7 @@
     width:33.3%;
     text-align:center
 }
+
+.pagination .page-item {
+    cursor: pointer;
+}

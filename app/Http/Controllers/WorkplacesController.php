@@ -16,8 +16,12 @@ use App\Models\Provider;
 use App\models\Status;
 use App\Models\Type;
 use App\Models\Workplace;
+use App\Services\Contracts\InventoryService;
 use App\Services\Contracts\WorkplaceService;
+use App\Services\Implement\Paginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class WorkplacesController extends Controller {
 
@@ -26,15 +30,15 @@ class WorkplacesController extends Controller {
      */
     private $workplaceService;
 
-    public function __construct(WorkplaceService $workplaceService) {
+    public function __construct(WorkplaceService $workplaceService, InventoryService $inventoryService) {
         $this->workplaceService = $workplaceService;
+        $this->inventoryService = $inventoryService;
     }
 
     public function index() {
         return view('workplaces.index', [
             'filials' => Filial::all(),
-            'departments' => Department::all(),
-            'workplaces' => Workplace::all()
+            'departments' => Department::all()
         ]);
     }
 
@@ -72,7 +76,7 @@ class WorkplacesController extends Controller {
     public function read($id) {
         return view('workplaces.read', [
             'workplace' => Workplace::find($id),
-            'inventory' => Inventory::where('workplace_id', $id)->get(),
+            'inventory' => Inventory::where('workplace_id', $id)->paginate(3),
             'types' => Type::all(),
             'manufacturers' => Manufacturer::all(),
             'models' => ModelM::all(),

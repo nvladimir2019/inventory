@@ -40,7 +40,7 @@
                     <div class="navbar-nav ml-auto">
                         @guest
                             <a class="nav-link" href="{{ route('login') }}">Авторизация</a>
-                            <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+{{--                            <a class="nav-link" href="{{ route('register') }}">Регистрация</a>--}}
                         @endguest
                         @auth
                             <a class="nav-link" href="#">{{ Auth::user()->username }}</a>

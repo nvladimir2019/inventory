@@ -1,21 +1,23 @@
 class Workplaces {
-    constructor(httpClient) {
+    constructor(httpClient, paginator) {
         this.httpClient = httpClient;
+        this.paginator = paginator;
     }
 
     getWorkplaces(filters) {
         this.httpClient.postJson("/api/get/workplaces", filters, (w) => {
             let workplaces = '';
-            w.forEach((workplace) => {
-                workplaces += `
-                    <tr>
-                        <th scope="row"><a href="/workplaces/read/${workplace.id}">${workplace.name}</a></th>
-                        <td><a href="/workplaces/edit/${workplace.id}">Редактировать</a></td>
-                    </tr>
-                `;
+            w.workplaces.data.forEach((workplace) => {
+                workplaces += `<tr><th scope="row"><a href="/workplaces/read/${workplace.id}">${workplace.name}</a></th>
+                <td><a href="/workplaces/edit/${workplace.id}">Редактировать</a></td></tr>`;
             });
 
             document.getElementById('workplaces').innerHTML = workplaces;
+            document.getElementById('pagination').innerHTML = this.paginator.render(
+                w.paginator,
+                w.workplaces.current_page,
+                w.workplaces.last_page
+            );
         });
     }
 
@@ -75,6 +77,7 @@ class GetWorkplacesFiltersRequest {
         this.floor = null;
         this.room = null;
         this.department = null;
+        this.page = null;
     }
 }
 
@@ -92,6 +95,7 @@ class FiltersWorkplaces {
             room: document.getElementById('room'),
             department: document.getElementById('department')
         };
+        this.pagination = document.getElementById('pagination');
 
         this.bindEvents();
     }
@@ -118,6 +122,17 @@ class FiltersWorkplaces {
 
         this.selects.department.addEventListener('change', e => {
             this.getWorkplaces('department');
+        });
+
+        this.pagination.addEventListener('click', e => {
+            let closest = e.target.closest('li');
+            if(closest.classList.contains('active') || closest.classList.contains('disabled')) return;
+
+            if(e.target.classList.contains('page-link')) {
+                let page = e.target.dataset.page;
+
+                this.getWorkplaces(null, page);
+            }
         });
     }
 
@@ -160,7 +175,7 @@ class FiltersWorkplaces {
         }
     }
 
-    getWorkplaces(select) {
+    getWorkplaces(select = null, page = 1) {
         let filters = new GetWorkplacesFiltersRequest();
         filters.filial = this.selects.filial.value === "-1" ? null : parseInt(this.selects.filial.value);
         filters.building = this.selects.building.disabled
@@ -178,7 +193,7 @@ class FiltersWorkplaces {
             : this.selects.room.value === '-1'
                 ? null
                 : parseInt(this.selects.room.value);
-        filters.department = this.selects.department.value === "-1" ? null : parseInt(this.selects.department.value);
+        filters.department = this.selects.department.value === '-1' ? null : parseInt(this.selects.department.value);
 
         let filter = {};
         if (select === 'filial') {
@@ -203,14 +218,22 @@ class FiltersWorkplaces {
             };
         } else if (select === 'department') {
             filter = filters;
+        } else if (select === null) {
+            filter = filters;
         }
+
+        filter.page = page;
 
         this.workplaces.getWorkplaces(filter);
     }
 }
 
 let httpClient = new HttpClient();
-let workplaces = new Workplaces(httpClient);
+let paginator = new Paginator();
+let workplaces = new Workplaces(httpClient, paginator);
 let filterWorkplaces = new FiltersWorkplaces(workplaces);
-window.addEventListener("load", () => filterWorkplaces.init());
+window.addEventListener("load", () => {
+    filterWorkplaces.init();
+    filterWorkplaces.getWorkplaces();
+});
 

@@ -48,16 +48,28 @@ class InventoryServiceImpl implements InventoryService
         return $models->get();
     }
 
-    function withInventoryNumbers(int $workplaceId) {
-        return Inventory::where('workplace_id', $workplaceId)
+    function withInventoryNumbers(int $workplaceId, int $page) {
+        $inventory = Inventory::where('workplace_id', $workplaceId)
             ->where('buhcode', '!=', '')
             ->with('model')
-            ->get();
+            ->paginate(15, ['*'], 'page', $page);
+        $paginator = new Paginator($inventory->items(), $inventory->total(), $inventory->perPage(), $inventory->currentPage());
+
+        return [
+            'inventory' => $inventory,
+            'paginator' => $paginator->getElements()
+        ];
     }
 
-    function getByWorkplaceId(int $workplaceId) {
-        return Inventory::where('workplace_id', $workplaceId)
+    function getByWorkplaceId(int $workplaceId, int $page) {
+        $inventory = Inventory::where('workplace_id', $workplaceId)
             ->with('model')
-            ->get();
+            ->paginate(15, ['*'], 'page', $page);
+        $paginator = new Paginator($inventory->items(), $inventory->total(), $inventory->perPage(), $inventory->currentPage());
+
+        return [
+            'inventory' => $inventory,
+            'paginator' => $paginator->getElements()
+        ];
     }
 }

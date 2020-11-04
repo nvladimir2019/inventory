@@ -29,13 +29,14 @@ class InventoryController extends Controller {
     }
 
     public function withInventoryNumbers(Request $request) {
-
-        $inventory = $this->inventoryService->withInventoryNumbers($request->json('workplaceId'));
+        $data = $request->json()->all();
+        $inventory = $this->inventoryService->withInventoryNumbers($data['workplaceId'], $data['page']);
         return response()->json($inventory);
     }
 
     public function getByWorkplaceId(Request $request) {
-        $inventory = $this->inventoryService->getByWorkplaceId($request->json('workplaceId'));
+        $data = $request->json()->all();
+        $inventory = $this->inventoryService->getByWorkplaceId($data['workplaceId'], $data['page']);
         return response()->json($inventory);
     }
 

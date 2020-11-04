@@ -10,6 +10,7 @@
 @section('javaScript')
     <script src="{{ asset('assets/js/common.js') }}"></script>
     <script src="{{ asset('assets/js/addInventory.js') }}"></script>
+    <script src="{{ asset('assets/js/paginator.js') }}"></script>
     <script src="{{ asset('assets/js/getInventory.js') }}"></script>
 @endsection
 
@@ -51,17 +52,22 @@
                 </tr>
                 </thead>
                 <tbody id="table-inventory">
-                @foreach($inventory as $inv)
-                    <tr>
-                        <td>{{ $inv->model->type->name }}</td>
-                        <td>{{ $inv->model->manufacturer->name }}</td>
-                        <td>{{ $inv->model->name }}</td>
-                        <td>{{ $inv->buhcode }}</td>
-                        <td><a href="{{ route('read-inventory', $inv->id) }}">Подробнее</a></td>
-                    </tr>
-                @endforeach
+{{--                @foreach($inventory as $inv)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{ $inv->model->type->name }}</td>--}}
+{{--                        <td>{{ $inv->model->manufacturer->name }}</td>--}}
+{{--                        <td>{{ $inv->model->name }}</td>--}}
+{{--                        <td>{{ $inv->buhcode }}</td>--}}
+{{--                        <td><a href="{{ route('read-inventory', $inv->id) }}">Подробнее</a></td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
                 </tbody>
             </table>
+            </div>
+            <div class="col-md-12">
+                <nav>
+                    <ul class="pagination justify-content-center" id="pagination"></ul>
+                </nav>
             </div>
         </div>
     </div>
