@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Models\Filial;
+use App\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -39,4 +42,41 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function filial() {
+        return $this->belongsToMany(
+            Filial::class,
+            'user_has_filial',
+            'user_id',
+            'filial_id'
+        );
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class,"roles_id");
+    }
+
+    public function hasRole($role) {
+        return $this
+            ->role()
+            ->where("name", $role)
+            ->exists();
+    }
+
+    public function hasPermission($perm) {
+        /*** @var Role $role */
+        $role = $this->role()->first();
+        if($role == null) return false;
+        return $role
+            ->permissions()
+            ->where("name", $perm)
+            ->exists();
+    }
+
+    public function getPermissions(): Collection {
+        /*** @var Role $role */
+        $role = $this->role()->first();
+        if($role == null) return new Collection();
+        return $role->permissions()->get();
+    }
 }

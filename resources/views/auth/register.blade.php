@@ -47,6 +47,18 @@
                             </div>
                         </div>
 
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="filial" class="col-md-4 col-form-label text-md-right">Филиал</label>--}}
+
+{{--                            <div class="col-md-6">--}}
+{{--                                <select name="filial" id="filial" class="form-control">--}}
+{{--                                    @foreach($filials as $filial)--}}
+{{--                                        <option value="{{ $filial->id }}">{{ $filial->name }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

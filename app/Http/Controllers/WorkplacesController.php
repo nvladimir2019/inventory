@@ -16,12 +16,8 @@ use App\Models\Provider;
 use App\models\Status;
 use App\Models\Type;
 use App\Models\Workplace;
-use App\Services\Contracts\InventoryService;
 use App\Services\Contracts\WorkplaceService;
-use App\Services\Implement\Paginator;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Log;
 
 class WorkplacesController extends Controller {
 
@@ -29,17 +25,16 @@ class WorkplacesController extends Controller {
      * @var WorkplaceService
      */
     private $workplaceService;
-    private $inventoryService;
 
-    public function __construct(WorkplaceService $workplaceService, InventoryService $inventoryService) {
+    public function __construct(WorkplaceService $workplaceService) {
         $this->workplaceService = $workplaceService;
-        $this->inventoryService = $inventoryService;
     }
 
     public function index() {
         return view('workplaces.index', [
             'filials' => Filial::all(),
-            'departments' => Department::all()
+            'departments' => Department::all(),
+            'workplaces' => Workplace::all()
         ]);
     }
 
@@ -77,7 +72,7 @@ class WorkplacesController extends Controller {
     public function read($id) {
         return view('workplaces.read', [
             'workplace' => Workplace::find($id),
-            'inventory' => Inventory::where('workplace_id', $id)->paginate(3),
+            'inventory' => Inventory::where('workplace_id', $id)->get(),
             'types' => Type::all(),
             'manufacturers' => Manufacturer::all(),
             'models' => ModelM::all(),
@@ -96,5 +91,10 @@ class WorkplacesController extends Controller {
 
     public function save(SaveEditWorkplaceRequest $request) {
         return redirect()->to(route('read-workplace', $this->workplaceService->save($request->post())));
+    }
+
+    public function getByDepartmentId(Request $request) {
+        $json = $request->json()->all();
+        return $this->workplaceService->getByDepartmentId($json['department']);
     }
 }

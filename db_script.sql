@@ -436,6 +436,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 
-
+use inventory;
 /*увеличить поле password в таблице user*/
 ALTER TABLE user CHANGE `password` `password` VARCHAR(255);

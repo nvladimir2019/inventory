@@ -8,7 +8,7 @@
     margin-top: 20px;
 }
 
-.add-inventory, .add-workplace, .move {
+.add-inventory, .add-workplace, .move, .add-employee {
     display: none;
     position: fixed;
     left: 0;
@@ -21,7 +21,7 @@
     padding: 25px;
 }
 
-.add-inventory.active, .add-workplace.active, .move.active {
+.add-inventory.active, .add-workplace.active, .move.active, .add-employee.active {
     display: block;
 }
 

@@ -59,7 +59,7 @@
             </div>
             <div class="form-group">
                 <label for="guarantee_period">
-                    Гарантия
+                    Гарантия:*
                 </label>
                 <input type="number" name="guarantee_period" class="form-control">
             </div>

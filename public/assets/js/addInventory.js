@@ -104,7 +104,7 @@ class GetDataInventory {
     insertInventory(i) {
         let inventory = "";
         i.forEach(inv => {
-            inventory += `<option value="${inv.id}">${inv.name}</option>`
+            inventory += `<option value="${inv.id}">${inv.name}</option>`;
         });
         document.getElementById('accessory-inventory').innerHTML = inventory;
     }

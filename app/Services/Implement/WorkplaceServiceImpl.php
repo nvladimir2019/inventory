@@ -76,4 +76,8 @@ class WorkplaceServiceImpl implements WorkplaceService {
 
         return $workplace->id;
     }
+
+    function getByDepartmentId(int $departmentId) {
+        return Workplace::where('department_id', $departmentId)->get();
+    }
 }

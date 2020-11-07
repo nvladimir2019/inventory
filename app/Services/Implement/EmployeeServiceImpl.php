@@ -6,6 +6,8 @@ namespace App\Services\Implement;
 
 use App\Models\Employee;
 use App\Services\Contracts\EmployeeService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeServiceImpl implements EmployeeService {
 
@@ -19,5 +21,26 @@ class EmployeeServiceImpl implements EmployeeService {
         $employee->save();
 
         return $employee->id;
+    }
+
+    function getByFilter(array $filter) {
+        $employees = DB::table('employee');
+
+        if(isset($filter['workplace'])) {
+            $employees->where('workplace_id', $filter['workplace']);
+        }
+        elseif(isset($filter['department'])) {
+            $employees->where('department_id', $filter['department']);
+        }
+
+        $employees = $employees->paginate(15, ['employee.*'], 'page', $filter['page']);
+
+        $paginator = new Paginator($employees->items(), $employees->total(), $employees->perPage(), $employees->currentPage());
+
+
+        return [
+            'employees' => $employees,
+            'paginator' => $paginator->getElements()
+        ];
     }
 }

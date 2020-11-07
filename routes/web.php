@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('employees')->group(function () {
         Route::get('/', "EmployeesController@index")->name('employees');
+        Route::post('/add/save', "EmployeesController@addSave")->name('add-save-employee');
     });
 
     Route::get('directory', "DirectoryController@index")->name('directory');
